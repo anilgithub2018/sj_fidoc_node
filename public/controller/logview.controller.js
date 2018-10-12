@@ -12,6 +12,26 @@ sap.ui.define([
 			
 			this.OwnerComponent.getRouter().getRoute("Mapping").attachPatternMatched(this._onRouteMatchedMapping, this);
 		},
+
+		onTypeSelectionChange: function(oEvent){
+
+			var vTable = oEvent.getSource();
+			var selectedContext = vTable.getSelectedContexts();
+			if (selectedContext.length <= 0) {
+				return;
+			}
+			var selectedRow = selectedContext[0].sPath;
+			var selectedRowIndex = selectedRow.substring(parseInt(selectedRow.lastIndexOf("/"), 10) + 1);
+			this.OwnerComponent.ODataCallsObj.filterFields(selectedRowIndex);
+		},
+
+		addType: function(oEvent){
+			this.OwnerComponent.ODataCallsObj.addType(oEvent);
+		},
+
+		addField: function(oEvent){
+			this.OwnerComponent.ODataCallsObj.addField(oEvent);
+		},
 		
 		onMapFields: function(oEvent){
 			this.OwnerComponent.getRouter().navTo("Mapping",{},false);			

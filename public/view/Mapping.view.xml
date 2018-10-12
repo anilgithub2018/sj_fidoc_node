@@ -3,70 +3,74 @@
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" displayBlock="true" xmlns="sap.m">
 	<App id="idAppControl">
 		<pages>
-			<Page title="{i18n>Mapping}" showNavButton="true" navButtonPress="onNavBack" >
+			<Page title="{i18n>Mapping}" showNavButton="true" navButtonPress="onNavBack">
 				<content>
-					<Table id="idTableRecordType" items="{oModelUser>/Users}" growing="true" growingThreshold="100">
-						<headerToolbar>
-							<OverflowToolbar id="otbRecordType">
-								<Title text="Record Types" />
-								<ToolbarSpacer/>
-								<Button text="Save Mapping"  press="onSaveMapping" type="Emphasized"/>
-								<Button id="addButton" text="Add Record Type" type="Emphasized"/>
-							</OverflowToolbar>
-						</headerToolbar>
-						<columns>
-							<Column width="12em">
-								<Text text="User Name"/>
-							</Column>
-							<Column >
-								<Text text="Role"/>
-							</Column>
-							<Column >
-								<Text text="Email"/>
-							</Column>
-						</columns>
-						<items>
-							<ColumnListItem>
-								<cells>
-									<Text text="{oModelUser>username}"/>
-									<Text text="{oModelUser>role}"/>
-									<Text text="{oModelUser>email}"/>
-								</cells>
-							</ColumnListItem>
-						</items>
-					</Table>
-
-					<Table id="idTableFieldMapping" items="{oModelUser>/Users}" growing="true" growingThreshold="100">
-						<headerToolbar>
-							<OverflowToolbar id="otbSubFieldMapping">
-								<Title text="Field Definition" />
-								<ToolbarSpacer/>
-								<Button id="addFields" text="Add Field" type="Emphasized"/>
-							</OverflowToolbar>
-						</headerToolbar>
-
-						<columns>
-							<Column width="12em">
-								<Text text="User Name"/>
-							</Column>
-							<Column >
-								<Text text="Role"/>
-							</Column>
-							<Column >
-								<Text text="Email"/>
-							</Column>
-						</columns>
-						<items>
-							<ColumnListItem>
-								<cells>
-									<Text text="{oModelUser>username}"/>
-									<Text text="{oModelUser>role}"/>
-									<Text text="{oModelUser>email}"/>
-								</cells>
-							</ColumnListItem>
-						</items>
-					</Table>
+					<l:Splitter height="500px">
+						<Table id="idTableRecordType" items="{oModelRecTypes>/recType}" growing="true" growingThreshold="100" mode="SingleSelectMaster"
+						selectionChange="onTypeSelectionChange" >
+							<layoutData><l:SplitterLayoutData size="300px"/></layoutData>
+							<headerToolbar>
+								<OverflowToolbar id="otbRecordType">
+									<Title text="Record Types"/>
+									<ToolbarSpacer/>
+									<Button id="addType" text="Add Type" type="Emphasized" press="addType"/>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column >
+									<Text text="Record Type"/>
+								</Column>
+								<Column >
+									<Text text="Description"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<Input value="{oModelRecTypes>recType}" class="sapUiNoMargin"/>
+										<Input value="{oModelRecTypes>recDesc}" class="sapUiNoMargin"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						<Table id="idTableFieldMapping" items="{oModelrecFields>/recFields}" growing="true" growingThreshold="100" mode="SingleSelectMaster">
+							<layoutData><l:SplitterLayoutData size="auto"/></layoutData>
+							<headerToolbar>
+								<OverflowToolbar id="otbSubFieldMapping">
+									<Title text="Field Definition"/>
+									<ToolbarSpacer/>
+									<Button id="addFields" text="Add Field" type="Emphasized" press="addField" />
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column >
+									<Text text="Record Type"/>
+								</Column>
+								<Column >
+									<Text text="Sequence Number"/>
+								</Column>
+								<Column >
+									<Text text="Field Name"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<Input value="{oModelrecFields>recType}" class="sapUiNoMargin"/>
+										<Input value="{oModelrecFields>seqNo}" class="sapUiNoMargin"/>
+										<Input value="{oModelrecFields>fldName}" class="sapUiNoMargin"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</l:Splitter>
 				</content>
+				<footer>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button text="Save Mapping" press="onSaveMapping" type="Emphasized"/>
+					</Toolbar>
+				</footer>
 			</Page>
 		</pages>
 	</App>

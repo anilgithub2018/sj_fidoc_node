@@ -11,7 +11,7 @@
 							uploadComplete="handleUploadComplete"/>
 						<Button text="Upload File" press="onfileUpload" class="sapUiSmallMarginBegin"/>
 					</FlexBox>
-					<Table id="idTableFileList" items="{oModelUser>/Users}" growing="true" growingThreshold="100">
+					<Table id="idTableFileList" items="{oModelFileList>/files}" growing="true" growingThreshold="100">
 						<headerToolbar>
 							<OverflowToolbar id="otbSubheader">
 								<Title text="Lisf of Available files" level="H2"/>
@@ -22,22 +22,22 @@
 							</OverflowToolbar>
 						</headerToolbar>
 						<columns>
-							<Column width="12em">
-								<Text text="User Name"/>
+							<Column >
+								<Text text="File Name"/>
 							</Column>
 							<Column >
-								<Text text="Role"/>
+								<Text text="Date and Time"/>
 							</Column>
 							<Column >
-								<Text text="Email"/>
+								<Text text="Process"/>
 							</Column>
 						</columns>
 						<items>
 							<ColumnListItem>
 								<cells>
-									<Text text="{oModelUser>username}"/>
-									<Text text="{oModelUser>role}"/>
-									<Text text="{oModelUser>email}"/>
+									<Text text="{oModelFileList>fileName}"/>
+									<Text text="{oModelFileList>createDate}"/>
+									<Button text="Process" press="onProcess"/>
 								</cells>
 							</ColumnListItem>
 						</items>

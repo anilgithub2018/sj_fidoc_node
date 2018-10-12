@@ -101,6 +101,161 @@ sap.ui.define([
             
 			},
 
+		readFileList: function(){
+			
+			debugger;
+			
+			var that = this;
+
+				if(location.hostname.indexOf('hana') !== -1 )
+					this.service_url = 'http://localhost:3000';
+					
+			var vServiceEndpoint = this.service_url + "/fileService/getFileList";
+            var aData = jQuery.ajax({
+                type : "GET",
+                crossDomain:true,
+                contentType : "application/json; charset=utf-8",
+                url : vServiceEndpoint,
+				dataType : "json",
+				beforeSend: function(xhr) {
+					// xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pwd));
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(jqXHR)
+				},				
+                success : function(data,textStatus, jqXHR) {
+debugger;
+					that.oModelFileList = new sap.ui.model.json.JSONModel();
+					var fileList = {};
+
+					fileList.files = data;
+					  
+					// UserCollection.Users = data;
+					that.oModelFileList.setData(fileList); 
+					that._oComponent.setModel( that.oModelFileList, "oModelFileList");
+					that._oComponent.getModel("oModelFileList").updateBindings();
+
+					// that.oTable = that.byId("idProductsTable");
+					// that.oReadOnlyTemplate = that.byId("idProductsTable").removeItem(0);
+					// that.rebindTable(that.oReadOnlyTemplate, "Navigation");
+		
+					console.log("success file list");	
+                }
+
+            });
+		},
+
+		readRecTypes: function(){
+		
+			var that = this;
+
+				if(location.hostname.indexOf('hana') !== -1 )
+					this.service_url = 'http://localhost:3000';
+					
+			var vServiceEndpoint = this.service_url + "/recType/getList";
+            var aData = jQuery.ajax({
+                type : "GET",
+                crossDomain:true,
+                contentType : "application/json; charset=utf-8",
+                url : vServiceEndpoint,
+				dataType : "json",
+				beforeSend: function(xhr) {
+					// xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pwd));
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					// console.log(jqXHR)
+				},				
+                success : function(data,textStatus, jqXHR) {
+
+					that.oModelRecTypes = new sap.ui.model.json.JSONModel();
+					var RecTypes = {};
+
+					RecTypes.recType = data;
+					  
+					// UserCollection.Users = data;
+					that.oModelRecTypes.setData(RecTypes); 
+					that._oComponent.setModel( that.oModelRecTypes, "oModelRecTypes");
+					that._oComponent.getModel("oModelRecTypes").updateBindings();
+
+					// that.oTable = that.byId("idProductsTable");
+					// that.oReadOnlyTemplate = that.byId("idProductsTable").removeItem(0);
+					// that.rebindTable(that.oReadOnlyTemplate, "Navigation");
+		
+					// console.log("success RecTypes");	
+                }
+
+            });
+		},
+		
+		addType: function(oEvent){
+			debugger;
+			var vrecType = this.oModelRecTypes.getData();
+			vrecType.recType.push({recDesc: "", recType: ""});
+			this.oModelRecTypes.setData(vrecType);
+			this._oComponent.getModel("oModelRecTypes").updateBindings();
+		},
+		
+		filterFields: function(typeSelectedRowIndex){
+			if(typeSelectedRowIndex){
+				var vrecType = this.oModelRecTypes.getData();
+				this.readRecFields(vrecType.recType[typeSelectedRowIndex].recType);
+			}
+		},
+
+		readRecFields: function(recType){
+		
+			var that = this;
+
+				if(location.hostname.indexOf('hana') !== -1 )
+					this.service_url = 'http://localhost:3000';
+					
+			var vServiceEndpoint = this.service_url + "/recFields/getList";
+            var aData = jQuery.ajax({
+                type : "GET",
+                crossDomain:true,
+                contentType : "application/json; charset=utf-8",
+                url : vServiceEndpoint,
+				dataType : "json",
+				beforeSend: function(xhr) {
+					// xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pwd));
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					// console.log(jqXHR)
+				},				
+                success : function(data,textStatus, jqXHR) {
+
+					that.oModelrecFields = new sap.ui.model.json.JSONModel();
+					var recFields = {};
+					recFields.recFields = [];
+
+					$.each(data, function(sytabix,ls_data){
+						if( ls_data.recType === recType){
+							recFields.recFields.push(ls_data);
+						}
+					});
+					
+					// recFields.recFields = data;
+					  
+					// UserCollection.Users = data;
+					that.oModelrecFields.setData(recFields); 
+					that._oComponent.setModel( that.oModelrecFields, "oModelrecFields");
+					that._oComponent.getModel("oModelrecFields").updateBindings();
+
+					// console.log("success RecTypes");	
+                }
+
+            });
+		},
+
+
+		addField: function(oEvent){
+			debugger;
+			var vrecField = this.oModelrecFields.getData();
+			vrecField.recFields.push({fldName: "", recType: "", seqNo: ""});
+			this.oModelrecFields.setData(vrecField);
+			this._oComponent.getModel("oModelrecFields").updateBindings();
+		},
+
 
 		readUserList: function(){
 			

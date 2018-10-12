@@ -46,6 +46,9 @@ sap.ui.define([
 													
 					this.ODataCallsObj = ODataCallsObj;					
 					this.ODataCallsObj.readUserList();
+					this.ODataCallsObj.readFileList();
+					this.ODataCallsObj.readRecTypes();
+					// this.ODataCallsObj.readRecFields();
 					
 				}
 			

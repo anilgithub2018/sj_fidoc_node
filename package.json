@@ -22,7 +22,9 @@
   "homepage": "https://github.com/anilgithub2018/sj_fidoc_node#readme",
   "dependencies": {
     "@google-cloud/datastore": "^2.0.0",
+    "@google-cloud/storage": "^2.1.0",
     "body-parser": "^1.18.3",
+    "busboy": "^0.2.14",
     "express": "^4.16.3"
   },
   "devDependencies": {}
