@@ -21,5 +21,12 @@ if (env === 'development' || env === 'test' ) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = "config/StdTest2-6647419c2653.json";
   console.log("Env Set GOOGLE_APPLICATION_CREDENTIALS", process.env.GOOGLE_APPLICATION_CREDENTIALS );
 
+} else {
+
+  var envConfig = config["qat"];
+  Object.keys(envConfig).forEach((key) => {
+    process.env[key] = envConfig[key];
+  });
+  
 }
 
