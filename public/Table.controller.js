@@ -55,6 +55,7 @@ sap.ui.define([
 					var UserCollection = {};
 
 					UserCollection.Users = data.sort(function(a, b) {
+						if(!b.username) return 0;
 						var nameA = a.username.toUpperCase(); // ignore upper and lowercase
 						var nameB = b.username.toUpperCase(); // ignore upper and lowercase
 						if (nameA < nameB) {
