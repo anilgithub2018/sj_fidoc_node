@@ -1,0 +1,7 @@
+# runtime: nodejs
+# env: flex
+# GAE runs on Node 8 by default
+runtime: nodejs8
+service: "sj_fidoc_node"
+env_variables:
+  NODE_ENV: "qat"

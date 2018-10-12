@@ -1,0 +1,42 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
+	<Dialog class="sapUiContentPadding" state="None" title="Add User" resizable="true" contentWidth="400px" contentHeight="auto"
+		verticalScrolling="true" draggable="true">
+
+	<f:SimpleForm id="SimpleFormChange354"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			title="Address"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="User Name" />
+				<Input id="name" value="{oModelUserEntry>/username}" />
+				<Label text="Email" />
+				<Input value="{oModelUserEntry>/email}">
+				</Input>
+				<Label text="Role" />
+				<Select id="Role" selectedKey="{oModelUserEntry>/role}">
+					<items>
+						<core:Item text="" key=""/>
+						<core:Item text="Tenant" key="TENANT"/>
+					</items>
+				</Select>
+			</f:content>
+		</f:SimpleForm>
+		<buttons> 
+			<Button text="Save"   press="onActionUserSave"/>
+			<Button text="Cancel" press="onActionCancel"/>
+		</buttons> 
+	</Dialog>
+</core:FragmentDefinition>
