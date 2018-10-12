@@ -1,0 +1,73 @@
+<mvc:View controllerName="zstd.zstd_log.controller.logview" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" displayBlock="true" xmlns="sap.m">
+	<App id="idAppControl">
+		<pages>
+			<Page title="{i18n>Mapping}" showNavButton="true" navButtonPress="onNavBack" >
+				<content>
+					<Table id="idTableRecordType" items="{oModelUser>/Users}" growing="true" growingThreshold="100">
+						<headerToolbar>
+							<OverflowToolbar id="otbRecordType">
+								<Title text="Record Types" />
+								<ToolbarSpacer/>
+								<Button text="Save Mapping"  press="onSaveMapping" type="Emphasized"/>
+								<Button id="addButton" text="Add Record Type" type="Emphasized"/>
+							</OverflowToolbar>
+						</headerToolbar>
+						<columns>
+							<Column width="12em">
+								<Text text="User Name"/>
+							</Column>
+							<Column >
+								<Text text="Role"/>
+							</Column>
+							<Column >
+								<Text text="Email"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{oModelUser>username}"/>
+									<Text text="{oModelUser>role}"/>
+									<Text text="{oModelUser>email}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+
+					<Table id="idTableFieldMapping" items="{oModelUser>/Users}" growing="true" growingThreshold="100">
+						<headerToolbar>
+							<OverflowToolbar id="otbSubFieldMapping">
+								<Title text="Field Definition" />
+								<ToolbarSpacer/>
+								<Button id="addFields" text="Add Field" type="Emphasized"/>
+							</OverflowToolbar>
+						</headerToolbar>
+
+						<columns>
+							<Column width="12em">
+								<Text text="User Name"/>
+							</Column>
+							<Column >
+								<Text text="Role"/>
+							</Column>
+							<Column >
+								<Text text="Email"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{oModelUser>username}"/>
+									<Text text="{oModelUser>role}"/>
+									<Text text="{oModelUser>email}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

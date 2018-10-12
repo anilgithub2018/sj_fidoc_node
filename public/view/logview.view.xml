@@ -1,0 +1,49 @@
+<mvc:View controllerName="zstd.zstd_log.controller.logview" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" displayBlock="true" xmlns="sap.m">
+	<App id="idAppControl">
+		<pages>
+			<Page title="{i18n>title}">
+				<content>
+					<FlexBox alignItems="Center" height="4rem" justifyContent="Center">
+						<Text text="File Name :" class="sapUiSmallMarginEnd"></Text>
+						<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" width="40rem" tooltip="Upload your file to the local server"
+							uploadComplete="handleUploadComplete"/>
+						<Button text="Upload File" press="onfileUpload" class="sapUiSmallMarginBegin"/>
+					</FlexBox>
+					<Table id="idTableFileList" items="{oModelUser>/Users}" growing="true" growingThreshold="100">
+						<headerToolbar>
+							<OverflowToolbar id="otbSubheader">
+								<Title text="Lisf of Available files" level="H2"/>
+								<ToolbarSpacer/>
+								<Button text="Maintain Field Mapping" press="onMapFields" type="Emphasized"/>
+								<!--<Button id="addButton" text="Add" type="Emphasized"-->
+								<!--	press="onAdd" />-->
+							</OverflowToolbar>
+						</headerToolbar>
+						<columns>
+							<Column width="12em">
+								<Text text="User Name"/>
+							</Column>
+							<Column >
+								<Text text="Role"/>
+							</Column>
+							<Column >
+								<Text text="Email"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{oModelUser>username}"/>
+									<Text text="{oModelUser>role}"/>
+									<Text text="{oModelUser>email}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
