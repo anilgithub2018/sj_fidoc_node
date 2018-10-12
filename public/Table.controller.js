@@ -12,7 +12,7 @@ sap.ui.define([
 			if ( vhostname.indexOf('localhost') !== -1 )
 				this.service_url = "http://localhost:3000" ;
 			else
-				this.service_url = "https://stdtest2-217119.appspot.com" ;
+				this.service_url = "https://sjfidoc-dot-stdtest2-217119.appspot.com" ;
 
 			this.readUserList();
             
