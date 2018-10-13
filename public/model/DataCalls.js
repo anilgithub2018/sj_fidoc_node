@@ -198,16 +198,37 @@ debugger;
 		filterFields: function(typeSelectedRowIndex){
 			if(typeSelectedRowIndex){
 				var vrecType = this.oModelRecTypes.getData();
-				this.readRecFields(vrecType.recType[typeSelectedRowIndex].recType);
+				this.readRecFields(vrecType.recType[typeSelectedRowIndex]);
 			}
 		},
 
-		readRecFields: function(recType){
+		readRecFields: function(selectedRecordType){
 		
+			var recType = selectedRecordType.recType
+			this.selectedRecordType = selectedRecordType;
+			
 			var that = this;
 
-				if(location.hostname.indexOf('hana') !== -1 )
-					this.service_url = 'http://localhost:3000';
+			if(location.hostname.indexOf('hana') !== -1 )
+				this.service_url = 'http://localhost:3000';
+
+
+			var sPath = jQuery.sap.getModulePath("zstd.zstd_log", "/model/dropdownFields.json");
+			this.oModelDropdownFields = new JSONModel(sPath).attachRequestCompleted({},function(oEvent1) { 
+				var ddData = this.getData(); 
+				var filter = "recType";
+				var filterValue = that.selectedRecordType.recType;
+				var filteredArray = ddData.fields.filter(function(lsArray) {
+								    return lsArray[filter] === filterValue;
+				});				
+			debugger;
+				
+				ddData.fields = filteredArray;
+				that._oComponent.getModel("oModelDropdownFields").setData(ddData);
+				that._oComponent.getModel("oModelDropdownFields").updateBindings();
+				
+			},null);
+			this._oComponent.setModel(this.oModelDropdownFields, "oModelDropdownFields");
 					
 			var vServiceEndpoint = this.service_url + "/recFields/getList";
             var aData = jQuery.ajax({
@@ -233,9 +254,10 @@ debugger;
 							recFields.recFields.push(ls_data);
 						}
 					});
-					
+
 					// recFields.recFields = data;
-					  
+					recFields.selectedRecordType = selectedRecordType;
+					that.selectedRecordType = selectedRecordType;
 					// UserCollection.Users = data;
 					that.oModelrecFields.setData(recFields); 
 					that._oComponent.setModel( that.oModelrecFields, "oModelrecFields");
@@ -245,22 +267,48 @@ debugger;
                 }
 
             });
+            
 		},
 
 
 		addField: function(oEvent){
-			debugger;
 			var vrecField = this.oModelrecFields.getData();
-			vrecField.recFields.push({fldName: "", recType: "", seqNo: ""});
+			vrecField.recFields.push({fldName: "", recType: this.selectedRecordType.recType , seqNo: ""});
 			this.oModelrecFields.setData(vrecField);
 			this._oComponent.getModel("oModelrecFields").updateBindings();
 		},
 
+		onSaveMapping: function(oEvent){
+
+			var oModelrecFieldsData =  this._oComponent.getModel("oModelrecFields").getData();
+			var that = this;
+
+			if(location.hostname.indexOf('hana') !== -1 )
+				this.service_url = 'http://localhost:3000';
+				
+			var vServiceEndpoint = this.service_url + "/recFields/add";
+            var aData = jQuery.ajax({
+                type : "POST",
+                crossDomain:true,
+                contentType : "application/json; charset=utf-8",
+                url : vServiceEndpoint,
+				dataType : "json",
+				data : JSON.stringify(oModelrecFieldsData),
+				beforeSend: function(xhr) {
+					// xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pwd));
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					// console.log(jqXHR)
+				},				
+                success : function(data,textStatus, jqXHR) {
+					that.readRecFields(that.selectedRecordType);
+                }
+
+            });
+			
+		},
 
 		readUserList: function(){
-			
-			debugger;
-			
 			var that = this;
 
 				// if(location.hostname.indexOf('hana') !== -1 )

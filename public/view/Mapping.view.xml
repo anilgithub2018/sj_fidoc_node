@@ -6,7 +6,13 @@
 			<Page title="{i18n>Mapping}" showNavButton="true" navButtonPress="onNavBack">
 				<content>
 					<l:Splitter height="500px">
-						<Table id="idTableRecordType" items="{oModelRecTypes>/recType}" growing="true" growingThreshold="100" mode="SingleSelectMaster"
+						<Table id="idTableRecordType" 
+						items="{
+												path: 'oModelRecTypes>/recType',
+												templateShareable:true,
+												sorter: { path: 'seqNo' }
+											}"
+						growing="true" growingThreshold="100" mode="SingleSelectMaster"
 						selectionChange="onTypeSelectionChange" >
 							<layoutData><l:SplitterLayoutData size="300px"/></layoutData>
 							<headerToolbar>
@@ -52,13 +58,27 @@
 								<Column >
 									<Text text="Field Name"/>
 								</Column>
+								<Column >
+									<Text text="Delete"/>
+								</Column>
+
 							</columns>
 							<items>
 								<ColumnListItem>
 									<cells>
-										<Input value="{oModelrecFields>recType}" class="sapUiNoMargin"/>
+										<Text text="{oModelrecFields>recType}" class="sapUiNoMargin" />
 										<Input value="{oModelrecFields>seqNo}" class="sapUiNoMargin"/>
-										<Input value="{oModelrecFields>fldName}" class="sapUiNoMargin"/>
+										<Select
+											forceSelection="false"
+											selectedKey="{oModelrecFields>fldName}"
+											items="{
+												path: 'oModelDropdownFields>/fields',
+												templateShareable:true,
+												sorter: { path: 'value' }
+											}">
+											<core:Item key="{oModelDropdownFields>key}" text="{oModelDropdownFields>value}" />
+										</Select>										
+										<CheckBox text="" selected="{oModelrecFields>delInd}"></CheckBox>
 									</cells>
 								</ColumnListItem>
 							</items>

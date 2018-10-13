@@ -37,6 +37,10 @@ sap.ui.define([
 			this.OwnerComponent.getRouter().navTo("Mapping",{},false);			
 		},
 
+		onSaveMapping: function(oEvent){
+			this.OwnerComponent.ODataCallsObj.onSaveMapping(oEvent);			
+		},
+	
 		handleUploadPress: function(oEvent) {
 			var oFileUploader = this.byId("fileUploader");
 			if (!oFileUploader.getValue()) {
