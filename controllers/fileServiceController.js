@@ -1,31 +1,29 @@
 const config = require("../config/config");
-const Busboy = require('busboy');
 const fs = require('fs');
+const Busboy = require('busboy');
+const path = require('path');
 
-exports.addImage = function(req, res, next) {
-    var busboy = new Busboy({headers: req.headers});
-    var uploads = {};
+exports.uploadFile = function(req, res, next) {
+   
+    const {Storage} = require('@google-cloud/storage');
+    
+    debugger; 
 
-    // Imports the Google Cloud client library
-    const googleStorage = require('@google-cloud/storage');
-
-    // Your Google Cloud Platform project ID
-    const projectId = process.env.PROJECT;
-
-    // console.log(file[0]);
-    // file = file[0];
-    // Creates a client
-    const storage = googleStorage({
+    const storage = new Storage({
         projectId: process.env.PROJECT,
         keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
     });
 
-    const bucket = storage.bucket(process.env.STORAGE_BUCKET);
+    const mybucket = storage.bucket(process.env.STORAGE_BUCKET);
+
+    var busboy = new Busboy({headers: req.headers});
 
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        debugger;
         console.log(`File [${fieldname}] filename: ${filename}, encoding: ${encoding}, mimetype: ${mimetype}`);
 
-        let fileUpload = bucket.file(filename);
+        let fileUpload = mybucket.file(filename);
+
         file.pipe(fileUpload.createWriteStream({
             metadata: {
                 contentType: mimetype
@@ -39,6 +37,7 @@ exports.addImage = function(req, res, next) {
 
     });
     req.pipe(busboy);
+
 };
 
 exports.CrossOrigin = async function(req,res,next){
