@@ -79,6 +79,10 @@ exports.updateEntity = function(dataIn, QueryList, callback) {
 
 exports.deleteEntity = function(dataIn, QueryList, callback) {
     debugger;  
+      if(!QueryList) {
+
+      }
+      
       QueryList.forEach(lsEntity => {
           const keyFld = lsEntity[datastore.KEY];
 
@@ -106,7 +110,7 @@ exports.findIdByEmail = function(email, callback){
 
 exports.getEntityList = function(filter, callback){
     const query = datastore.createQuery(kind);
-debugger;
+
     datastore.runQuery(query).then(results => {
         console.log(results);
         const entities = results[0];

@@ -14,6 +14,8 @@ exports.createEntity = async function(req,res,next){
     res.header('Access-Control-Allow-Origin', req.headers.origin)
     res.header('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
+    debugger;
+
     let dataIn = {};
     dataIn.recType = req.body.recType;
     dataIn.recDesc = req.body.recDesc;
@@ -46,7 +48,7 @@ exports.getEntityList = async function(req,res,next){
                 message: 'List read failed'
             });
         } else{
-            debugger;
+
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify(outList));
             // res.send(userList);

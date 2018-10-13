@@ -52,7 +52,6 @@ exports.ListFiles = async function listFiles(req,res,next) {
     // Imports the Google Cloud client library
     const {Storage} = require('@google-cloud/storage');
    
-    debugger; 
 
     const storage = new Storage({
         projectId: process.env.PROJECT,
