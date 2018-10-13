@@ -7,9 +7,9 @@
 				<content>
 					<FlexBox alignItems="Center" height="4rem" justifyContent="Center">
 						<Text text="File Name :" class="sapUiSmallMarginEnd"></Text>
-						<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" width="40rem" tooltip="Upload your file to the local server"
+						<u:FileUploader id="fileUploader" name="file" uploadUrl="https://sjfidoc-dot-stdtest2-217119.appspot.com/fileService/uploadFile/" width="40rem" tooltip="Upload your file to the local server"
 							uploadComplete="handleUploadComplete"/>
-						<Button text="Upload File" press="onfileUpload" class="sapUiSmallMarginBegin"/>
+						<Button text="Upload File" press="handleUploadPress" class="sapUiSmallMarginBegin"/>
 					</FlexBox>
 					<Table id="idTableFileList" items="{oModelFileList>/files}" growing="true" growingThreshold="100">
 						<headerToolbar>

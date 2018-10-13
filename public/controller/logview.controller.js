@@ -37,6 +37,15 @@ sap.ui.define([
 			this.OwnerComponent.getRouter().navTo("Mapping",{},false);			
 		},
 
+		handleUploadPress: function(oEvent) {
+			var oFileUploader = this.byId("fileUploader");
+			if (!oFileUploader.getValue()) {
+				sap.m.MessageToast.show("Choose a file first");
+				return;
+			}
+			oFileUploader.upload();
+		},
+		
 		_onRouteMatchedMapping: function(oEvent){
 			// var vEmail = oEvent.getParameter("arguments").routeEmail;
 		},
