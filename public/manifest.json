@@ -83,8 +83,8 @@
 				"greedy": false,
 				"target": ["Mapping"]
 			}, {
-				"name": "route name",
-				"pattern": "fileName/:fileName:",
+				"name": "ProcessDoc",
+				"pattern": "",
 				"titleTarget": "",
 				"greedy": false,
 				"target": ["ProcessDoc"]
