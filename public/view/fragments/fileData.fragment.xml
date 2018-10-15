@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:ui="sap.ui.table"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<ScrollContainer class="sapUiNoMargin" height="500px"	horizontal="true"
+		vertical="true" >
+
+			<Table width="3000px" id="idSearchHelpResults" inset="false" 
+				items="{ path: 'oModelFileData>/records', 
+					factory: 'zstd.zstd_log.factory.dynResult.factory' }"
+				columns="{ path: 'oModelFileData>/colName', 
+				           factory: 'zstd.zstd_log.factory.dynColumn.factory' }"
+				updateFinished="onAttributesUpdateFinished" 
+				headerText="" class="sapUiNoMargin" 
+				growing="true" 
+				noDataText="{i18n>notFoundTitle}"  
+				visible="true" 
+				mode="None"
+			></Table>
+	
+	</ScrollContainer>
+</core:FragmentDefinition>

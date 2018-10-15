@@ -3,6 +3,7 @@ const fs = require('fs');
 const Busboy = require('busboy');
 const path = require('path');
 
+
 exports.uploadFile = function(req, res, next) {
    
     const {Storage} = require('@google-cloud/storage');
@@ -98,3 +99,43 @@ exports.ListFiles = async function listFiles(req,res,next) {
 
     // [END storage_list_files]
   }
+
+  exports.fileRead = function fileRead(req, res) {
+
+    const {Storage} = require('@google-cloud/storage');
+    
+    const storage = new Storage({
+        projectId: process.env.PROJECT,
+        keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
+    });
+
+    const mybucket = storage.bucket(process.env.STORAGE_BUCKET);
+
+    debugger
+    var fileName = req.query.filename;
+
+    let archivo = mybucket.file(fileName).createReadStream();
+
+    res.header('Access-Control-Allow-Origin', req.headers.origin)
+    res.header('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+    res.setHeader("content-type", "application/json");
+    var  buf = '';
+    archivo.on('data', function(d) {
+      buf += d;
+    }).on('end', function() {
+        const csv=require('csvtojson');
+        csv({
+            noheader:true,
+            output: "csv"
+        }).fromString(buf)
+        .then((csvRow)=>{ 
+            console.log(csvRow) // => [["1","2","3"], ["4","5","6"], ["7","8","9"]]
+
+            res.send(csvRow);
+        })        
+      
+    })
+
+//    res.send(200);
+
+  };

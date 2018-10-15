@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:ui="sap.ui.table"
+	xmlns:code="sap.ui.codeeditor"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<code:CodeEditor value="{oModelMappedData>/JsonString}"  type="json" editable="false" maxLines="300"/>
+
+</core:FragmentDefinition>

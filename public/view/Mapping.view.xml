@@ -3,7 +3,7 @@
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" displayBlock="true" xmlns="sap.m">
 	<App id="idAppControl">
 		<pages>
-			<Page title="{i18n>Mapping}" showNavButton="true" navButtonPress="onNavBack">
+			<Page title="{i18n>Mapping}" showNavButton="true" navButtonPress="onNavBack" class="sapUiNoContentPadding">
 				<content>
 					<l:Splitter height="500px">
 						<Table id="idTableRecordType" 
@@ -13,8 +13,9 @@
 												sorter: { path: 'seqNo' }
 											}"
 						growing="true" growingThreshold="100" mode="SingleSelectMaster"
-						selectionChange="onTypeSelectionChange" >
-							<layoutData><l:SplitterLayoutData size="300px"/></layoutData>
+						selectionChange="onTypeSelectionChange" 
+						class="sapUiNoContentPadding">
+							<layoutData><l:SplitterLayoutData size="300px" class="sapUiNoContentPadding"/></layoutData>
 							<headerToolbar>
 								<OverflowToolbar id="otbRecordType">
 									<Title text="Record Types"/>
@@ -23,17 +24,17 @@
 								</OverflowToolbar>
 							</headerToolbar>
 							<columns>
-								<Column >
-									<Text text="Record Type"/>
+								<Column class="sapUiNoContentPadding" >
+									<Text text="Record Type" class="sapUiNoContentPadding"/>
 								</Column>
-								<Column >
-									<Text text="Description"/>
+								<Column class="sapUiNoContentPadding" >
+									<Text text="Description" class="sapUiNoContentPadding"/>
 								</Column>
 							</columns>
-							<items>
-								<ColumnListItem>
-									<cells>
-										<Input value="{oModelRecTypes>recType}" class="sapUiNoMargin"/>
+							<items class="sapUiNoContentPadding">
+								<ColumnListItem class="sapUiNoContentPadding">
+									<cells class="sapUiNoContentPadding" >
+										<Input value="{oModelRecTypes>recType}" class="sapUiNoMargin sapUiNoContentPadding"/>
 										<Input value="{oModelRecTypes>recDesc}" class="sapUiNoMargin"/>
 									</cells>
 								</ColumnListItem>

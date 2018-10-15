@@ -102,9 +102,7 @@ sap.ui.define([
 			},
 
 		readFileList: function(){
-			
-			debugger;
-			
+		
 			var that = this;
 
 				if(location.hostname.indexOf('hana') !== -1 )
@@ -124,7 +122,7 @@ sap.ui.define([
 					console.log(jqXHR)
 				},				
                 success : function(data,textStatus, jqXHR) {
-debugger;
+
 					that.oModelFileList = new sap.ui.model.json.JSONModel();
 					var fileList = {};
 
@@ -135,11 +133,6 @@ debugger;
 					that._oComponent.setModel( that.oModelFileList, "oModelFileList");
 					that._oComponent.getModel("oModelFileList").updateBindings();
 
-					// that.oTable = that.byId("idProductsTable");
-					// that.oReadOnlyTemplate = that.byId("idProductsTable").removeItem(0);
-					// that.rebindTable(that.oReadOnlyTemplate, "Navigation");
-		
-					console.log("success file list");	
                 }
 
             });
@@ -149,8 +142,8 @@ debugger;
 		
 			var that = this;
 
-				if(location.hostname.indexOf('hana') !== -1 )
-					this.service_url = 'http://localhost:3000';
+			if(location.hostname.indexOf('hana') !== -1 )
+				this.service_url = 'http://localhost:3000';
 					
 			var vServiceEndpoint = this.service_url + "/recType/getList";
             var aData = jQuery.ajax({
@@ -170,7 +163,22 @@ debugger;
 					that.oModelRecTypes = new sap.ui.model.json.JSONModel();
 					var RecTypes = {};
 
-					RecTypes.recType = data;
+					// RecTypes.recType = data;
+
+					RecTypes.recType = data.sort(function(a, b) {
+						if(!b.seqNo) return 0;
+						var nameA = a.seqNo.toUpperCase(); // ignore upper and lowercase
+						var nameB = b.seqNo.toUpperCase(); // ignore upper and lowercase
+						if (nameA < nameB) {
+						  return -1;
+						}
+						if (nameA > nameB) {
+						  return 1;
+						}
+					  
+						// names must be equal
+						return 0;
+					  });
 					  
 					// UserCollection.Users = data;
 					that.oModelRecTypes.setData(RecTypes); 
@@ -188,7 +196,7 @@ debugger;
 		},
 		
 		addType: function(oEvent){
-			debugger;
+
 			var vrecType = this.oModelRecTypes.getData();
 			vrecType.recType.push({recDesc: "", recType: ""});
 			this.oModelRecTypes.setData(vrecType);
@@ -201,17 +209,146 @@ debugger;
 				this.readRecFields(vrecType.recType[typeSelectedRowIndex]);
 			}
 		},
+		
+		processFile: function(SelectedRowIndex){
+			if(SelectedRowIndex){
+				var vFileList = this.oModelFileList.getData();
+				var vSelectedFile =  vFileList.files[SelectedRowIndex].fileName;
+
+				if(vSelectedFile){
+
+					var that = this;
+		
+					if(location.hostname.indexOf('hana') !== -1 )
+						this.service_url = 'http://localhost:3000';
+							
+					var vServiceEndpoint = this.service_url + "/fileService/fileRead?filename=" + vSelectedFile;
+		            var aData = jQuery.ajax({
+		                type : "GET",
+		                crossDomain:true,
+		                contentType : "application/json; charset=utf-8",
+		                url : vServiceEndpoint,
+						dataType : "json",
+						beforeSend: function(xhr) {
+							// xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pwd));
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							// console.log(jqXHR)
+						},				
+		                success : function(data, textStatus, jqXHR) {
+		
+							that.oModelFileData = new sap.ui.model.json.JSONModel();
+							var fileData = {};
+		
+							fileData.records = data;
+							fileData.SelectedFile = vSelectedFile;
+							 
+							var fieldHeaders = [];
+							for( var colName in fileData.records[0]){
+								fieldHeaders.push(fileData.records[0][colName]);
+							}
+
+							that._oComponent.getRouter().navTo("ProcessDoc",{},false);	
+
+							fileData.colName = fieldHeaders;
+							fileData.records.splice(0,1);  //remove header
+
+							// UserCollection.Users = data;
+							that.fileData = fileData;
+							
+							that.oModelFileData.setData(fileData); 
+							that._oComponent.setModel( that.oModelFileData, "oModelFileData");
+							that._oComponent.getModel("oModelFileData").updateBindings();
+
+							that.readRecFieldsAll();
+						
+		                }
+		
+		            });
+
+				}
+			}
+		},		
+
+		readRecFieldsAll: function(){
+
+			var that = this;
+			
+			var vServiceEndpoint = this.service_url + "/recFields/getList";
+            var aData = jQuery.ajax({
+                type : "GET",
+                crossDomain:true,
+                contentType : "application/json; charset=utf-8",
+                url : vServiceEndpoint,
+				dataType : "json",
+				beforeSend: function(xhr) {
+					// xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pwd));
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					// console.log(jqXHR)
+				},				
+                success : function(data,textStatus, jqXHR) {
+
+					that.oModelrecFieldsAll = [];
+					var recFields = {};
+					recFields.recFields = data;
+
+					recFields.recFields = recFields.recFields.sort(function(a, b) {
+						if(!b.seqNo) return 0;
+						var nameA = parseFloat(a.seqNo); // ignore upper and lowercase
+						var nameB = parseFloat(b.seqNo); // ignore upper and lowercase
+						if (nameA < nameB) {
+						  return -1;
+						}
+						if (nameA > nameB) {
+						  return 1;
+						}
+					  
+						// names must be equal
+						return 0;
+					  });
+debugger;
+					// UserCollection.Users = data;
+					that.oModelrecFieldsAll = recFields ;
+					that.processRec = [];
+					
+				that.fileData.records.forEach(function(ls_fileData, index, array){
+					var recType = parseFloat(ls_fileData[0],0);
+					var recStructure = {};
+					
+					that.oModelrecFieldsAll.recFields.forEach(function(ls_recFields, rindex, rarray){
+						if( parseFloat(ls_recFields.recType,0) === recType ){
+							recStructure[ls_recFields.fldName] = ls_fileData[ls_recFields.seqNo];
+						}
+					});
+					
+					that.processRec.push(recStructure);
+			
+				});					
+					
+				var contextStringify = JSON.stringify(that.processRec, null, "\t");
+				var map = {};
+				map.JsonString = contextStringify;
+				that.oModelMappedData = new sap.ui.model.json.JSONModel();
+				that.oModelMappedData.setData(map); 
+				that._oComponent.setModel( that.oModelMappedData, "oModelMappedData");
+				that._oComponent.getModel("oModelMappedData").updateBindings();
+					// console.log("success RecTypes");	
+                }
+
+            });
+            
+		},
 
 		readRecFields: function(selectedRecordType){
 		
-			var recType = selectedRecordType.recType
+			var recType = selectedRecordType.recType;
 			this.selectedRecordType = selectedRecordType;
 			
 			var that = this;
 
 			if(location.hostname.indexOf('hana') !== -1 )
 				this.service_url = 'http://localhost:3000';
-
 
 			var sPath = jQuery.sap.getModulePath("zstd.zstd_log", "/model/dropdownFields.json");
 			this.oModelDropdownFields = new JSONModel(sPath).attachRequestCompleted({},function(oEvent1) { 
@@ -221,8 +358,7 @@ debugger;
 				var filteredArray = ddData.fields.filter(function(lsArray) {
 								    return lsArray[filter] === filterValue;
 				});				
-			debugger;
-				
+
 				ddData.fields = filteredArray;
 				that._oComponent.getModel("oModelDropdownFields").setData(ddData);
 				that._oComponent.getModel("oModelDropdownFields").updateBindings();
@@ -254,6 +390,21 @@ debugger;
 							recFields.recFields.push(ls_data);
 						}
 					});
+
+					recFields.recFields = recFields.recFields.sort(function(a, b) {
+						if(!b.seqNo) return 0;
+						var nameA = parseFloat(a.seqNo); // ignore upper and lowercase
+						var nameB = parseFloat(b.seqNo); // ignore upper and lowercase
+						if (nameA < nameB) {
+						  return -1;
+						}
+						if (nameA > nameB) {
+						  return 1;
+						}
+					  
+						// names must be equal
+						return 0;
+					  });
 
 					// recFields.recFields = data;
 					recFields.selectedRecordType = selectedRecordType;

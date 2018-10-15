@@ -1,7 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/core/routing/History"
-], function (Controller, History) {
+	"sap/ui/core/routing/History",
+	"zstd/zstd_log/factory/dynResult",
+	"zstd/zstd_log/factory/dynColumn",
+], function (Controller, History, dynResult, dynColumn) {
 	"use strict";
 
 	return Controller.extend("zstd.zstd_log.controller.logview", {
@@ -24,6 +26,16 @@ sap.ui.define([
 			var selectedRowIndex = selectedRow.substring(parseInt(selectedRow.lastIndexOf("/"), 10) + 1);
 			this.OwnerComponent.ODataCallsObj.filterFields(selectedRowIndex);
 		},
+		
+		onProcess: function(oEvent){
+			var selectedRow = oEvent.getSource().getParent().getBindingContextPath("oModelFileList");
+			var selectedRowIndex = selectedRow.substring(parseInt(selectedRow.lastIndexOf("/"), 10) + 1);
+			this.OwnerComponent.ODataCallsObj.processFile(selectedRowIndex);
+			
+
+			
+		},
+		
 
 		addType: function(oEvent){
 			this.OwnerComponent.ODataCallsObj.addType(oEvent);
