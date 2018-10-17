@@ -4,6 +4,7 @@ var recType = require('./routes/sjRecTypeRoute');
 var recFields = require('./routes/sjRecFldRoute');
 
 var fileService = require('./routes/fileServiceRoute');
+var fiDocPost = require('./routes/sjFiDocPostRoute');
 
 const express = require('express')
 const app = express()
@@ -20,6 +21,7 @@ app.use('/user/',user);
 app.use('/fileService/',fileService);
 app.use('/recType/', recType);
 app.use('/recFields/', recFields);
+app.use('/fiDoc/', fiDocPost);
 
 app.get('/', (req, res) => {
   res.header('Content-Type', 'application/json');
