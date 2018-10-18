@@ -16,7 +16,7 @@
 							<OverflowToolbar id="otbSubheader">
 								<Title text="Lisf of Available files" level="H2"/>
 								<ToolbarSpacer/>
-								<Button text="Maintain Field Mapping" press="onMapFields" type="Emphasized"/>
+								<Button text="Maintain Field Mapping" press="onMapFields" type="Accept"/>
 								<!--<Button id="addButton" text="Add" type="Emphasized"-->
 								<!--	press="onAdd" />-->
 							</OverflowToolbar>

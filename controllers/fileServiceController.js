@@ -111,7 +111,7 @@ exports.ListFiles = async function listFiles(req,res,next) {
 
     const mybucket = storage.bucket(process.env.STORAGE_BUCKET);
 
-    debugger
+
     var fileName = req.query.filename;
 
     let archivo = mybucket.file(fileName).createReadStream();

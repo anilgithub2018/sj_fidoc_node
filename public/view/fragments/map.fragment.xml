@@ -2,6 +2,12 @@
 	xmlns:code="sap.ui.codeeditor"
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
 
-	<code:CodeEditor value="{oModelMappedData>/JsonString}"  type="json" editable="false" maxLines="300"/>
-
+	<ScrollContainer
+		height="30rem"
+		width="100%"
+		horizontal="true"
+		vertical="true"
+		focusable="true">
+	<code:CodeEditor value="{oModelMappedData>/JsonString}"  type="json" editable="false" maxLines="500" />
+	</ScrollContainer>
 </core:FragmentDefinition>

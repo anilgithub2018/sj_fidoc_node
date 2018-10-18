@@ -3,38 +3,38 @@
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" displayBlock="true" xmlns="sap.m">
 	<App id="idAppControl">
 		<pages>
-			<Page title="{i18n>Mapping}" showNavButton="true" navButtonPress="onNavBack" class="sapUiNoContentPadding">
+			<Page title="{i18n>Mapping}" showNavButton="true" navButtonPress="onNavBack" >
 				<content>
-					<l:Splitter height="500px">
+					<l:Splitter height="90%">
 						<Table id="idTableRecordType" 
 						items="{
 												path: 'oModelRecTypes>/recType',
 												templateShareable:true,
 												sorter: { path: 'seqNo' }
 											}"
-						growing="true" growingThreshold="100" mode="SingleSelectMaster"
+						growing="true" growingThreshold="100" mode="SingleSelectLeft"
 						selectionChange="onTypeSelectionChange" 
-						class="sapUiNoContentPadding">
-							<layoutData><l:SplitterLayoutData size="300px" class="sapUiNoContentPadding"/></layoutData>
+						>
+							<layoutData><l:SplitterLayoutData size="300px" /></layoutData>
 							<headerToolbar>
 								<OverflowToolbar id="otbRecordType">
 									<Title text="Record Types"/>
 									<ToolbarSpacer/>
-									<Button id="addType" text="Add Type" type="Emphasized" press="addType"/>
+									<Button id="addType" text="Add Type" press="addType" type="Accept" />
 								</OverflowToolbar>
 							</headerToolbar>
 							<columns>
-								<Column class="sapUiNoContentPadding" >
-									<Text text="Record Type" class="sapUiNoContentPadding"/>
+								<Column  >
+									<Text text="Record Type"  textAlign="End"/>
 								</Column>
-								<Column class="sapUiNoContentPadding" >
-									<Text text="Description" class="sapUiNoContentPadding"/>
+								<Column  >
+									<Text text="Description" />
 								</Column>
 							</columns>
-							<items class="sapUiNoContentPadding">
-								<ColumnListItem class="sapUiNoContentPadding">
-									<cells class="sapUiNoContentPadding" >
-										<Input value="{oModelRecTypes>recType}" class="sapUiNoMargin sapUiNoContentPadding"/>
+							<items >
+								<ColumnListItem >
+									<cells  >
+										<Input value="{oModelRecTypes>recType}" class="sapUiNoMargin sapUiNoContentPadding"  textAlign="End"/>
 										<Input value="{oModelRecTypes>recDesc}" class="sapUiNoMargin"/>
 									</cells>
 								</ColumnListItem>
@@ -46,12 +46,12 @@
 								<OverflowToolbar id="otbSubFieldMapping">
 									<Title text="Field Definition"/>
 									<ToolbarSpacer/>
-									<Button id="addFields" text="Add Field" type="Emphasized" press="addField" />
+									<Button id="addFields" text="Add Field" type="Accept" press="addField" />
 								</OverflowToolbar>
 							</headerToolbar>
 							<columns>
 								<Column >
-									<Text text="Record Type"/>
+									<Text text="Record Type" textAlign="Right" />
 								</Column>
 								<Column >
 									<Text text="Sequence Number"/>
@@ -67,7 +67,7 @@
 							<items>
 								<ColumnListItem>
 									<cells>
-										<Text text="{oModelrecFields>recType}" class="sapUiNoMargin" />
+										<Text text="{oModelrecFields>recType}" class="sapUiNoMargin" textAlign="End" />
 										<Input value="{oModelrecFields>seqNo}" class="sapUiNoMargin"/>
 										<Select
 											forceSelection="false"
@@ -89,7 +89,7 @@
 				<footer>
 					<Toolbar>
 						<ToolbarSpacer/>
-						<Button text="Save Mapping" press="onSaveMapping" type="Emphasized"/>
+						<Button text="Save Mapping" press="onSaveMapping" type="Accept"/>
 					</Toolbar>
 				</footer>
 			</Page>

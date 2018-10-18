@@ -16,24 +16,16 @@ exports.createEntity = async function(req,res,next){
     var dataOutArr = [];
 
     // var recToProcess = req.body.recFields.length;
-
+debugger;
     req.body.forEach(lsRecData => {
-        if(lsRecData["BBKPF-BUKRS"] && lsRecData["BBKPF-BUKRS"] === ""){
+        if( !(lsRecData["BBKPF-BUKRS"] === undefined) && lsRecData["BBKPF-BUKRS"] === ""){
             dataOutArr.push({"Type":"E","Message":"BKPF Company code missing", "MessageV1":"Header", "MessageV2":""});
         }
 
-        if(lsRecData["BBSEG-DMBTR"] && lsRecData["BBSEG-DMBTR"] === ""){
+        if( !(lsRecData["BBSEG-DMBTR"] === undefined)  && lsRecData["BBSEG-DMBTR"] === ""){
             dataOutArr.push({"Type":"E","Message":"BBSEG-DMBTR Empty", "MessageV1":"Item", "MessageV2":lsRecData["BBSEG-NEWBS"]});
         }
         
-        if(lsRecData["BBSEG-AUFNR"] && lsRecData["BBSEG-AUFNR"] === ""){
-            dataOutArr.push({"Type":"W","Message":"BBSEG-AUFNR optional", "MessageV1":"Item", "MessageV2":lsRecData["BBSEG-NEWBS"]});
-        }
-
-        if(lsRecData["BBSEG-ZTERM"] && lsRecData["BBSEG-ZTERM"] === ""){
-            dataOutArr.push({"Type":"I","Message":"Payment Term ZTERM empty", "MessageV1":"Item", "MessageV2":lsRecData["BBSEG-NEWBS"]});
-        }
-
     });
 
     if(dataOutArr.length > 0) {

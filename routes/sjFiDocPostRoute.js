@@ -5,7 +5,7 @@ const router = express.Router();
 const Controller = require('../controllers/sjFiDocPostController');
 
 
-router.post('/fidoc', Controller.createEntity);
-router.options('/fidoc', Controller.crossOrigin);
+router.post('/fiDoc', Controller.createEntity);
+router.options('/fiDoc', Controller.crossOrigin);
 
 module.exports = router;

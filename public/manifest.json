@@ -57,7 +57,10 @@
 			}
 		},
 		"resources": {
-			"css": []
+			"css": [{
+				"uri": "css/style.css",
+				"id": ""
+			}]
 		},
 		"routing": {
 			"config": {
@@ -84,7 +87,7 @@
 				"target": ["Mapping"]
 			}, {
 				"name": "ProcessDoc",
-				"pattern": "",
+				"pattern": "procdoc",
 				"titleTarget": "",
 				"greedy": false,
 				"target": ["ProcessDoc"]
