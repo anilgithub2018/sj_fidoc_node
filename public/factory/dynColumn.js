@@ -12,7 +12,7 @@ sap.ui.define([
 			formatter: formatter,
 			factory: function(id, context) {
 
-				var oLabelText = context.getProperty();
+				var oLabelText = context.getProperty().fldName;
 
 				var newColumn = new sap.m.Column({
 					header: new sap.m.Label({
@@ -20,6 +20,7 @@ sap.ui.define([
 								wrapping:true
 							}),
 					width : "auto",
+					hAlign : "Right",
 					demandPopin: true
 				});
 			

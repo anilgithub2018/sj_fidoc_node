@@ -241,7 +241,7 @@ html.sap-desktop .sapMIBar.sapMFooter-CTX,html.sap-phone .sapMIBar.sapMFooter-CT
 }
 
 .sapMSplitContainerMasterVisible .sapMNavItem .sapMIBar.sapMHeader-CTX.sapMPageHeader .sapMBarPH>.sapMBarChild:last-child, .sap-phone .sapMNavItem .sapMIBar.sapMHeader-CTX.sapMPageHeader .sapMBarPH>.sapMBarChild:last-child,.sapUiMedia-Std-Tablet .sapMNavItem .sapMIBar.sapMHeader-CTX.sapMPageHeader .sapMBarPH>.sapMBarChild:last-child {
-    background: url(images/pfizer_rgb_neg.png) no-repeat left center;
+    background: url(images/rgb_neg.png) no-repeat left center;
     background-size: 55px 32px;
     padding-left: 85px
 }

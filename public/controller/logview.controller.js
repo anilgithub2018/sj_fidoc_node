@@ -53,6 +53,10 @@ sap.ui.define([
 			this.OwnerComponent.ODataCallsObj.onSaveMapping(oEvent);			
 		},
 	
+		onSimulate: function(oEvent){
+			this.OwnerComponent.ODataCallsObj.onPostDocument(oEvent);			
+		},
+	
 		handleUploadPress: function(oEvent) {
 			var oFileUploader = this.byId("fileUploader");
 			if (!oFileUploader.getValue()) {

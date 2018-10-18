@@ -1,0 +1,41 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:ui="sap.ui.table"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<ScrollContainer class="sapUiNoMargin" height="90%"	horizontal="true"
+		vertical="true" >
+
+					<Table id="idTableProcessLog" items="{oModelMappedData>/processLog}" growing="true" growingThreshold="100">
+						<headerToolbar>
+							<OverflowToolbar id="otbProcessLog">
+								<ToolbarSpacer/>
+								<Button text="simulate" press="onSimulate" type="Accept"/>
+							</OverflowToolbar>
+						</headerToolbar>
+						<columns>
+							<Column >
+								<Text text="Type"/>
+							</Column>
+							<Column >
+								<Text text="Message"/>
+							</Column>
+							<Column >
+								<Text text="MessageV1"/>
+							</Column>
+							<Column >
+								<Text text="MessageV2"/>
+							</Column>
+
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{oModelMappedData>Type}"/>
+									<Text text="{oModelMappedData>Message}"/>
+									<Text text="{oModelMappedData>MessageV1}"/>
+									<Text text="{oModelMappedData>MessageV2}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+
+	</ScrollContainer>
+</core:FragmentDefinition>

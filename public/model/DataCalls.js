@@ -67,40 +67,6 @@ sap.ui.define([
 				return this._oLocalJsonMdl;	
 			},
 			
-			saveUser: function(){
-
-				var that = this;
-				
-				that.vUserData = JSON.stringify( this._oDataResults.Login );
-				
-				// if(location.hostname.indexOf('hana') !== -1 )
-				// 	this.service_url = 'http://localhost:3000';
-					
-				var vServiceEndpoint = that.service_url + "/user/tenant/add";
-	
-				var aData = jQuery.ajax({
-	                type : "POST",
-	                crossDomain:true,
-	                contentType : "application/json; charset=utf-8",
-					url : vServiceEndpoint,
-					data : that.vUserData ,
-					dataType : "json",
-					async: true,
-					beforeSend: function(xhr) {
-						// xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pwd));
-						// xhr.setRequestHeader("Access-Control-Allow-Origin","*");
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						that.showMessage(jqXHR.statusText);
-					},				
-	                success : function(data,textStatus, jqXHR) {
-						that.showMessage(data.username + " Saved Successfully");
-	                }
-	
-	            });
-            
-			},
-
 		readFileList: function(){
 		
 			var that = this;
@@ -270,6 +236,44 @@ sap.ui.define([
 			}
 		},		
 
+		onPostDocument: function(oEvent){
+
+//			var oModelrecFieldsData =  this._oComponent.getModel("oModelrecFields").getData();
+			var that = this;
+
+			if(location.hostname.indexOf('hana') !== -1 )
+				this.service_url = 'http://localhost:3000';
+
+			var vMappedData = JSON.stringify(that.processRec);
+			that.processLog = [];
+				
+			var vServiceEndpoint = this.service_url + "/fiDoc/fiDoc";
+            var aData = jQuery.ajax({
+                type : "POST",
+                crossDomain:true,
+                contentType : "application/json; charset=utf-8",
+                url : vServiceEndpoint,
+				dataType : "json",
+				data : vMappedData,
+				beforeSend: function(xhr) {
+					// xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pwd));
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					// console.log(jqXHR)
+				},				
+                success : function(data,textStatus, jqXHR) {
+					that.processLog = data;
+
+					var vMapData = that._oComponent.getModel("oModelMappedData").getData();
+					vMapData.processLog = that.processLog;
+					that._oComponent.getModel("oModelMappedData").setData("oModelMappedData", vMapData);
+					that._oComponent.getModel("oModelMappedData").updateBindings();
+                }
+
+            });
+		},
+
+
 		readRecFieldsAll: function(){
 
 			var that = this;
@@ -307,28 +311,62 @@ sap.ui.define([
 						// names must be equal
 						return 0;
 					  });
-debugger;
+
 					// UserCollection.Users = data;
 					that.oModelrecFieldsAll = recFields ;
 					that.processRec = [];
-					
-				that.fileData.records.forEach(function(ls_fileData, index, array){
-					var recType = parseFloat(ls_fileData[0],0);
+
+				that.fileData.records.forEach(function(lsfileData, index, array){
+					var recType = parseFloat(lsfileData[0],0);
 					var recStructure = {};
 					
-					that.oModelrecFieldsAll.recFields.forEach(function(ls_recFields, rindex, rarray){
-						if( parseFloat(ls_recFields.recType,0) === recType ){
-							recStructure[ls_recFields.fldName] = ls_fileData[ls_recFields.seqNo];
+					that.oModelrecFieldsAll.recFields.forEach(function(lsrecFields, rindex, rarray){
+						if( parseFloat(lsrecFields.recType,0) === recType ){
+							lsrecFields.fldName = lsrecFields.fldName.replace(/\s/g,"");
+							recStructure[lsrecFields.fldName] = lsfileData[(lsrecFields.seqNo - 1)];
 						}
 					});
 					
 					that.processRec.push(recStructure);
 			
 				});					
+
+//prepare file display - copy array
+				debugger;
+				that.fileWithAllFields =  JSON.parse(JSON.stringify(that.processRec)); 
+
+				that.fileWithAllFields.forEach(function(lsProcessRec, rindexPR, rarrayPR){
+					
+					that.oModelrecFieldsAll.recFields.forEach(function(lsrecFields, rindex, rarray){
+						if( lsProcessRec[lsrecFields.fldName] ){ //if field found then do nothing
+						} else {
+							lsProcessRec[lsrecFields.fldName] = "";
+						}
+						
+					});
+				});
 					
 				var contextStringify = JSON.stringify(that.processRec, null, "\t");
 				var map = {};
 				map.JsonString = contextStringify;
+				map.fileWithAllFields = that.fileWithAllFields;
+				map.recFields = that.oModelrecFieldsAll.recFields;
+
+				map.recFields = map.recFields.sort(function(a, b) {
+					if(!b.fldName) return 0;
+					var nameA = a.fldName; // ignore upper and lowercase
+					var nameB = b.fldName; // ignore upper and lowercase
+					if (nameA < nameB) {
+					  return -1;
+					}
+					if (nameA > nameB) {
+					  return 1;
+					}
+					// names must be equal
+					return 0;
+				  });
+
+				
 				that.oModelMappedData = new sap.ui.model.json.JSONModel();
 				that.oModelMappedData.setData(map); 
 				that._oComponent.setModel( that.oModelMappedData, "oModelMappedData");
@@ -458,6 +496,8 @@ debugger;
             });
 			
 		},
+
+
 
 		readUserList: function(){
 			var that = this;

@@ -14,13 +14,7 @@
 								<core:Fragment fragmentName="zstd.zstd_log.view.fragments.map" type="XML" id="fgMap"/>
 							</IconTabFilter>
 							<IconTabFilter text="Simulate and Post">
-								<Toolbar>
-									<ToolbarSpacer/>
-									<Button text="simulate" press="onSimulate"/>
-									<ToolbarSpacer/>
-								</Toolbar>
-								<!--<core:Fragment fragmentName="zsdcampaign.view.Fragments.PartnerList" type="XML" id="fgPartnerList"/>-->
-								<!--<Text text="Attachments go here ..." />-->
+								<core:Fragment fragmentName="zstd.zstd_log.view.fragments.processLog" type="XML" id="fgLog"/>
 							</IconTabFilter>
 						</items>
 					</IconTabBar>

@@ -20,11 +20,12 @@ sap.ui.define([
 
 				totColumns.map(function(resultColumn) {
 
-					ColumnRef = "{oModelFileData>" + resultColumn + "}";
+					ColumnRef = "{oModelMappedData>" + resultColumn + "}";
 					
 					mycells.push(
 							new sap.m.Text({
-								text: ColumnRef
+								text: ColumnRef,
+								textAlign: "Right"
 							})						
 						);
 				});
