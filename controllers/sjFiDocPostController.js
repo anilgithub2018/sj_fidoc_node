@@ -17,13 +17,13 @@ exports.createEntity = async function(req,res,next){
 
     // var recToProcess = req.body.recFields.length;
 debugger;
-    req.body.forEach(lsRecData => {
+    req.body.data.forEach(lsRecData => {
         if( !(lsRecData["BBKPF-BUKRS"] === undefined) && lsRecData["BBKPF-BUKRS"] === ""){
             dataOutArr.push({"Type":"E","Message":"BKPF Company code missing", "MessageV1":"Header", "MessageV2":""});
         }
 
         if( !(lsRecData["BBSEG-DMBTR"] === undefined)  && lsRecData["BBSEG-DMBTR"] === ""){
-            dataOutArr.push({"Type":"E","Message":"BBSEG-DMBTR Empty", "MessageV1":"Item", "MessageV2":lsRecData["BBSEG-NEWBS"]});
+            dataOutArr.push({"Type":"E","Message":"BBSEG-DMBTR Empty", "MessageV1":"Item", "MessageV2": ` ${lsRecData["BBSEG-NEWBS"]} / ${lsRecData["BBSEG-NEWKO"]} `  });
         }
         
     });
@@ -31,7 +31,17 @@ debugger;
     if(dataOutArr.length > 0) {
         res.send(JSON.stringify(dataOutArr));
     } else {
-        dataOutArr.push({"Type":"S","Message":"Document Parked Successfully", "MessageV1":"Header", "MessageV2":""});
+        if(req.body.mode === 'Post')
+        {
+            var val = Math.floor(1000 + Math.random() * 9000);
+            val = 1400000000 + val;
+            dataOutArr.push({"Type":"S","Message":`Document ${val} Saved Successfully`, "MessageV1":"", "MessageV2":""});
+        }
+        else
+        {
+            dataOutArr.push({"Type":"S","Message":"Document Simulated Successfully", "MessageV1":"", "MessageV2":""});
+        }
+
         res.send(JSON.stringify(dataOutArr));
     }
 

@@ -24,6 +24,18 @@ sap.ui.define([
 				}
 				return false;
 			},
+
+			formatMyDateTime: function(fMyDate) {
+
+				var userDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+					pattern: "MM/dd/yyyy HH:MM:SS"
+				});
+				if (fMyDate) {
+					var date = new Date(fMyDate);
+					return userDateFormat.format(date);
+				}
+				return "";
+			},
 			
 			dateFormat: function (sValue){
 				var userDateFormat = sap.ui.core.format.DateFormat.getDateInstance({

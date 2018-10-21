@@ -7,37 +7,46 @@
 				<content>
 					<FlexBox alignItems="Center" height="4rem" justifyContent="Center">
 						<Text text="File Name :" class="sapUiSmallMarginEnd"></Text>
-						<u:FileUploader id="fileUploader" name="file" uploadUrl="https://sjfidoc-dot-stdtest2-217119.appspot.com/fileService/uploadFile/" width="40rem" tooltip="Upload your file to the local server"
+						<u:FileUploader id="fileUploader" name="file" 
+							uploadUrl="https://sjfidoc-dot-stdtest2-217119.appspot.com/fileService/uploadFile/" 
+							width="20rem" tooltip="Upload your file to the local server"
 							uploadComplete="handleUploadComplete"/>
 						<Button text="Upload File" press="handleUploadPress" class="sapUiSmallMarginBegin"/>
+								<ToolbarSpacer/>
+						<Button text="Maintain Field Mapping" press="onMapFields" type="Transparent" class="myLeftPadding"/>
+
 					</FlexBox>
-					<Table id="idTableFileList" items="{oModelFileList>/files}" growing="true" growingThreshold="100">
+					<Table id="idTableFileList" items="{oModelFileList>/files}" growing="true" growingThreshold="100"  class="sapUiNoPaddi" >
 						<headerToolbar>
 							<OverflowToolbar id="otbSubheader">
-								<Title text="Lisf of Available files" level="H2"/>
+								<Title text="List of Available files" level="H2"/>
 								<ToolbarSpacer/>
-								<Button text="Maintain Field Mapping" press="onMapFields" type="Accept"/>
 								<!--<Button id="addButton" text="Add" type="Emphasized"-->
 								<!--	press="onAdd" />-->
 							</OverflowToolbar>
 						</headerToolbar>
 						<columns>
-							<Column >
+							<Column vAlign="Middle">
 								<Text text="File Name"/>
 							</Column>
-							<Column >
+							<Column vAlign="Middle">
 								<Text text="Date and Time"/>
 							</Column>
-							<Column >
+							<Column width="4rem" vAlign="Middle" styleClass="myColumnCenter" >
 								<Text text="Process"/>
 							</Column>
+							<Column  width="4rem" vAlign="Middle" styleClass="myColumnCenter"  >
+								<Text text="Delete"/>
+							</Column>
+
 						</columns>
 						<items>
 							<ColumnListItem>
 								<cells>
 									<Text text="{oModelFileList>fileName}"/>
-									<Text text="{oModelFileList>createDate}"/>
-									<Button text="Process" press="onProcess"/>
+									<Text text="{path: 'oModelFileList>createDate', formatter: '.formatter.formatMyDateTime'}"/>
+									<Button icon="sap-icon://process" press="onProcess" class="myButton"  />
+									<Button icon="sap-icon://delete"  class="myButton" />
 								</cells>
 							</ColumnListItem>
 						</items>

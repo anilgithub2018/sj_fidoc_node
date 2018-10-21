@@ -29,7 +29,7 @@
 			"tablet": true,
 			"phone": true
 		},
-		"supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+		"supportedThemes": ["sap_hcb", "sap_bluecrystal", "sap_belize"]
 	},
 	"sap.ui5": {
 		"rootView": {
@@ -58,7 +58,10 @@
 		},
 		"resources": {
 			"css": [{
-				"uri": "css/style.css",
+				"uri": "css/colorcircle.css",
+				"id": ""
+			}, {
+				"uri": "css/leanui.css",
 				"id": ""
 			}]
 		},

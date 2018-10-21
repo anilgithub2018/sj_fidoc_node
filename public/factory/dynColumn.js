@@ -19,8 +19,10 @@ sap.ui.define([
 								text: oLabelText,
 								wrapping:true
 							}),
-					width : "auto",
-					hAlign : "Right",
+					width : "13rem",
+					hAlign : "Left",
+					vAlign : sap.ui.core.VerticalAlign.Bottom,
+					styleClass: "myColumnCenterMiddle",
 					demandPopin: true
 				});
 			

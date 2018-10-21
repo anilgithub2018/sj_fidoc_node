@@ -7,14 +7,14 @@
 				<content>
 					<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding">
 						<items>
+							<IconTabFilter text="Process">
+								<core:Fragment fragmentName="zstd.zstd_log.view.fragments.processLog" type="XML" id="fgLog"/>
+							</IconTabFilter>
 							<IconTabFilter text="File Content">
 								<core:Fragment fragmentName="zstd.zstd_log.view.fragments.fileData" type="XML" id="fgFileData"/>
 							</IconTabFilter>
 							<IconTabFilter text="Mapped Data">
 								<core:Fragment fragmentName="zstd.zstd_log.view.fragments.map" type="XML" id="fgMap"/>
-							</IconTabFilter>
-							<IconTabFilter text="Simulate and Post">
-								<core:Fragment fragmentName="zstd.zstd_log.view.fragments.processLog" type="XML" id="fgLog"/>
 							</IconTabFilter>
 						</items>
 					</IconTabBar>

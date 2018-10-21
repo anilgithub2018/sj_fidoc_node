@@ -3,10 +3,16 @@ sap.ui.define([
 	"sap/ui/core/routing/History",
 	"zstd/zstd_log/factory/dynResult",
 	"zstd/zstd_log/factory/dynColumn",
-], function (Controller, History, dynResult, dynColumn) {
+	"zstd/zstd_log/factory/ColorCircle",
+	"zstd/zstd_log/model/formatter"
+	
+], function (Controller, History, dynResult, dynColumn,ColorCircle, formatter) {
 	"use strict";
-
+	
 	return Controller.extend("zstd.zstd_log.controller.logview", {
+
+		formatter: formatter,
+
 		onInit: function(evt) {
 			
 			this.OwnerComponent = this.getOwnerComponent();
@@ -46,6 +52,7 @@ sap.ui.define([
 		},
 		
 		onMapFields: function(oEvent){
+			this.OwnerComponent.ODataCallsObj.filterFields("0");
 			this.OwnerComponent.getRouter().navTo("Mapping",{},false);			
 		},
 
@@ -54,7 +61,11 @@ sap.ui.define([
 		},
 	
 		onSimulate: function(oEvent){
-			this.OwnerComponent.ODataCallsObj.onPostDocument(oEvent);			
+			this.OwnerComponent.ODataCallsObj.onPostDocument(oEvent, 'Simulate');			
+		},
+
+		onPost: function(oEvent){
+			this.OwnerComponent.ODataCallsObj.onPostDocument(oEvent, 'Post');			
 		},
 	
 		handleUploadPress: function(oEvent) {
@@ -66,7 +77,21 @@ sap.ui.define([
 			oFileUploader.upload();
 		},
 		
+		onRecTypeTableLoaded: function(oEvent){
+
+			var tblRecType = oEvent.getSource();
+			if(tblRecType){
+				if(!tblRecType.getSelectedItem()){
+					var tblItems = tblRecType.getItems();
+					if( tblItems && tblItems.length > 0 ) {
+						tblRecType.setSelectedItem(tblItems[0]);
+					}
+				}
+			}
+		},
+		
 		_onRouteMatchedMapping: function(oEvent){
+
 			// var vEmail = oEvent.getParameter("arguments").routeEmail;
 		},
 		

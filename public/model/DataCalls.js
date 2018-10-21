@@ -73,7 +73,9 @@ sap.ui.define([
 
 				if(location.hostname.indexOf('hana') !== -1 )
 					this.service_url = 'http://localhost:3000';
-					
+			
+			this.oGlobalBusyDialog.open();
+			
 			var vServiceEndpoint = this.service_url + "/fileService/getFileList";
             var aData = jQuery.ajax({
                 type : "GET",
@@ -86,8 +88,11 @@ sap.ui.define([
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					console.log(jqXHR)
+					that.oGlobalBusyDialog.close();
 				},				
                 success : function(data,textStatus, jqXHR) {
+
+					that.oGlobalBusyDialog.close();
 
 					that.oModelFileList = new sap.ui.model.json.JSONModel();
 					var fileList = {};
@@ -98,7 +103,6 @@ sap.ui.define([
 					that.oModelFileList.setData(fileList); 
 					that._oComponent.setModel( that.oModelFileList, "oModelFileList");
 					that._oComponent.getModel("oModelFileList").updateBindings();
-
                 }
 
             });
@@ -151,6 +155,7 @@ sap.ui.define([
 					that._oComponent.setModel( that.oModelRecTypes, "oModelRecTypes");
 					that._oComponent.getModel("oModelRecTypes").updateBindings();
 
+					that.filterFields("0");
 					// that.oTable = that.byId("idProductsTable");
 					// that.oReadOnlyTemplate = that.byId("idProductsTable").removeItem(0);
 					// that.rebindTable(that.oReadOnlyTemplate, "Navigation");
@@ -170,6 +175,7 @@ sap.ui.define([
 		},
 		
 		filterFields: function(typeSelectedRowIndex){
+
 			if(typeSelectedRowIndex){
 				var vrecType = this.oModelRecTypes.getData();
 				this.readRecFields(vrecType.recType[typeSelectedRowIndex]);
@@ -236,7 +242,7 @@ sap.ui.define([
 			}
 		},		
 
-		onPostDocument: function(oEvent){
+		onPostDocument: function(oEvent, mode){
 
 //			var oModelrecFieldsData =  this._oComponent.getModel("oModelrecFields").getData();
 			var that = this;
@@ -244,9 +250,13 @@ sap.ui.define([
 			if(location.hostname.indexOf('hana') !== -1 )
 				this.service_url = 'http://localhost:3000';
 
-			var vMappedData = JSON.stringify(that.processRec);
+			var deepData = {};
+			deepData.data = that.processRec;
+			deepData.mode = mode;
+			
+			var vMappedData = JSON.stringify(deepData);
 			that.processLog = [];
-				
+				debugger;
 			var vServiceEndpoint = this.service_url + "/fiDoc/fiDoc";
             var aData = jQuery.ajax({
                 type : "POST",
@@ -332,7 +342,6 @@ sap.ui.define([
 				});					
 
 //prepare file display - copy array
-				debugger;
 				that.fileWithAllFields =  JSON.parse(JSON.stringify(that.processRec)); 
 
 				that.fileWithAllFields.forEach(function(lsProcessRec, rindexPR, rarrayPR){

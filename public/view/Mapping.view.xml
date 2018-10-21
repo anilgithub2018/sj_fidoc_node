@@ -14,20 +14,21 @@
 											}"
 						growing="true" growingThreshold="100" mode="SingleSelectLeft"
 						selectionChange="onTypeSelectionChange" 
+						updateFinished="onRecTypeTableLoaded"
 						>
 							<layoutData><l:SplitterLayoutData size="300px" /></layoutData>
 							<headerToolbar>
 								<OverflowToolbar id="otbRecordType">
-									<Title text="Record Types"/>
+									<Title text="File"/>
 									<ToolbarSpacer/>
-									<Button id="addType" text="Add Type" press="addType" type="Accept" />
+									<Button id="addType" text="Add Record Type" press="addType" type="Accept" />
 								</OverflowToolbar>
 							</headerToolbar>
 							<columns>
-								<Column  >
+								<Column hAlign="Center" vAlign="Middle" >
 									<Text text="Record Type"  textAlign="End"/>
 								</Column>
-								<Column  >
+								<Column  hAlign="Center" vAlign="Middle"  >
 									<Text text="Description" />
 								</Column>
 							</columns>
@@ -40,26 +41,27 @@
 								</ColumnListItem>
 							</items>
 						</Table>
-						<Table id="idTableFieldMapping" items="{oModelrecFields>/recFields}" growing="true" growingThreshold="100" mode="SingleSelectMaster">
+						<Table id="idTableFieldMapping" items="{oModelrecFields>/recFields}" growing="true" growingThreshold="100" mode="SingleSelectMaster"
+						>
 							<layoutData><l:SplitterLayoutData size="auto"/></layoutData>
 							<headerToolbar>
 								<OverflowToolbar id="otbSubFieldMapping">
-									<Title text="Field Definition"/>
+									<Title text="Accounting Document"/>
 									<ToolbarSpacer/>
 									<Button id="addFields" text="Add Field" type="Accept" press="addField" />
 								</OverflowToolbar>
 							</headerToolbar>
 							<columns>
-								<Column >
+								<Column  hAlign="Center" vAlign="Middle"  width="5rem">
 									<Text text="Record Type" textAlign="Right" />
 								</Column>
-								<Column >
-									<Text text="Sequence Number"/>
+								<Column  hAlign="Center" vAlign="Middle"  width="5rem">
+									<Text text="Sequence"/>
 								</Column>
-								<Column >
+								<Column  hAlign="Left" vAlign="Middle" width="40rem" >
 									<Text text="Field Name"/>
 								</Column>
-								<Column >
+								<Column  hAlign="Center" vAlign="Middle"  >
 									<Text text="Delete"/>
 								</Column>
 
@@ -69,7 +71,7 @@
 									<cells>
 										<Text text="{oModelrecFields>recType}" class="sapUiNoMargin" textAlign="End" />
 										<Input value="{oModelrecFields>seqNo}" class="sapUiNoMargin"/>
-										<Select
+										<Select width="30rem"
 											forceSelection="false"
 											selectedKey="{oModelrecFields>fldName}"
 											items="{
@@ -77,7 +79,7 @@
 												templateShareable:true,
 												sorter: { path: 'value' }
 											}">
-											<core:Item key="{oModelDropdownFields>key}" text="{oModelDropdownFields>value}" />
+											<core:Item key="{oModelDropdownFields>key}" text="{oModelDropdownFields>key}:{oModelDropdownFields>value}" />
 										</Select>										
 										<CheckBox text="" selected="{oModelrecFields>delInd}"></CheckBox>
 									</cells>
@@ -89,7 +91,7 @@
 				<footer>
 					<Toolbar>
 						<ToolbarSpacer/>
-						<Button text="Save Mapping" press="onSaveMapping" type="Accept"/>
+						<Button text="Save Mapping" press="onSaveMapping" type="Emphasized"/>
 					</Toolbar>
 				</footer>
 			</Page>
